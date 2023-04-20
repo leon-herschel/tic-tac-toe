@@ -83,7 +83,7 @@ public class Main extends JFrame {
 				multiPlayer.setVisible(true);
 			}
 		});
-		robotButton.setForeground(new Color(77, 177, 165));
+		robotButton.setForeground(new Color(255, 182, 0));
 		robotButton.setFont(new Font("Dialog", Font.BOLD, 30));
 		robotButton.setBackground(new Color(30, 30, 29));
 		robotButton.setBounds(60, 370, 440, 60);
@@ -92,6 +92,13 @@ public class Main extends JFrame {
 		contentPane.add(robotButton);
 		
 		JButton helpButton = new JButton("?");
+		helpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame howToPlay = new HowToPlay();
+				howToPlay.setVisible(true);
+			}
+		});
+		
 		helpButton.setFont(new Font("Gadugi", Font.BOLD, 13));
 		helpButton.setBackground(Color.WHITE);
 		helpButton.setBounds(514, 480, 40, 40);

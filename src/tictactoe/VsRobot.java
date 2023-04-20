@@ -13,6 +13,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 
@@ -23,6 +25,8 @@ public class VsRobot extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	JLabel liveText = new JLabel();
 	JButton[] buttons = new JButton[9];
+	JLabel player1Score = new JLabel("0");
+	JLabel player2Score = new JLabel("0");
 	boolean player1_turn;
 
 	/**
@@ -72,17 +76,16 @@ public class VsRobot extends JFrame implements ActionListener {
 		contentPane.add(player1Panel);
 		player1Panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel player1Score = new JLabel("0");
 		player1Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player1Score.setForeground(new Color(255, 182, 0));
 		player1Score.setFont(new Font("Dialog", Font.BOLD, 30));
 		player1Panel.add(player1Score, BorderLayout.CENTER);
 		
-		JLabel player1Label_1 = new JLabel("X(YOU)");
-		player1Label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Label_1.setForeground(new Color(255, 182, 0));
-		player1Label_1.setFont(new Font("Dialog", Font.BOLD, 12));
-		player1Panel.add(player1Label_1, BorderLayout.NORTH);
+		JLabel player1Label = new JLabel("X(YOU)");
+		player1Label.setHorizontalAlignment(SwingConstants.CENTER);
+		player1Label.setForeground(new Color(255, 182, 0));
+		player1Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player1Panel.add(player1Label, BorderLayout.NORTH);
 		
 		JPanel player2Panel = new JPanel();
 		player2Panel.setBackground(new Color(255, 182, 0));
@@ -90,13 +93,12 @@ public class VsRobot extends JFrame implements ActionListener {
 		contentPane.add(player2Panel);
 		player2Panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel player2Label = new JLabel("X(FRIEND)");
+		JLabel player2Label = new JLabel("O(ROBOT)");
 		player2Label.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Label.setForeground(new Color(30, 30, 29));
 		player2Label.setFont(new Font("Dialog", Font.BOLD, 12));
 		player2Panel.add(player2Label, BorderLayout.NORTH);
 		
-		JLabel player2Score = new JLabel("0");
 		player2Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Score.setForeground(new Color(30, 30, 29));
 		player2Score.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -150,9 +152,10 @@ public class VsRobot extends JFrame implements ActionListener {
 			buttons[i].setFocusable(false);
 			buttons[i].addActionListener(this);
 		}
-		
+
 		firstTurn();
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -181,27 +184,24 @@ public class VsRobot extends JFrame implements ActionListener {
 		}
 	}
 	
-public void firstTurn() {
-		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	public void firstTurn() {
+			
+			if(random.nextInt(2) == 0) {
+				player1_turn = true;
+				liveText.setText("X TURN");
+			}else {
+				player1_turn = false;
+				liveText.setText("O TURN");
+				botTurn();
+			}
+			
 		}
-		
-		if(random.nextInt(2) == 0) {
-			player1_turn = true;
-			liveText.setText("X TURN");
-		}else {
-			player1_turn = false;
-			liveText.setText("O TURN");
-		}
-		
-	}
 	
 	public void check() {
-		
 		boolean gameOver = false;
+		if (!gameOver && !player1_turn) {
+	        botTurn();
+	    }
 		//check X win condition
 		if(
 				(buttons[0].getText()=="X") &&
@@ -359,6 +359,7 @@ public void firstTurn() {
 			buttons[i].setEnabled(false);
 		}
 		liveText.setText("X WINS");
+		updateScore(player1Score);
 	}
 	
 	public void oWins(int a, int b, int c) {
@@ -370,12 +371,176 @@ public void firstTurn() {
 			buttons[i].setEnabled(false);
 		}
 		liveText.setText("O WINS");
+		updateScore(player2Score);
 	}
+	
+	private void updateScore(JLabel scoreLabel) {
+	    int score = Integer.parseInt(scoreLabel.getText());
+	    score++;
+	    scoreLabel.setText(String.valueOf(score));
+	}
+	
 	
 	public void disableButtons() {
 	    for (int i = 0; i < 9; i++) {
 	        buttons[i].setEnabled(false);
-
+	
+	    	}	
+		}
+	public boolean checkForWin(String player) {
+	    // Check rows
+	    for (int i = 0; i < 3; i++) {
+	        if (buttons[i*3].getText().equals(player) &&
+	            buttons[i*3+1].getText().equals(player) &&
+	            buttons[i*3+2].getText().equals(player)) {
+	            return true;
+	        }
+	    }
+	
+	    // Check columns
+	    for (int i = 0; i < 3; i++) {
+	        if (buttons[i].getText().equals(player) &&
+	            buttons[i+3].getText().equals(player) &&
+	            buttons[i+6].getText().equals(player)) {
+	            return true;
+	        }
+	    }
+	
+	    // Check diagonals
+	    if (buttons[0].getText().equals(player) &&
+	        buttons[4].getText().equals(player) &&
+	        buttons[8].getText().equals(player)) {
+	        return true;
+	    }
+	    if (buttons[2].getText().equals(player) &&
+	        buttons[4].getText().equals(player) &&
+	        buttons[6].getText().equals(player)) {
+	        return true;
+	    }
+	
+	    return false;
+	}
+	
+	
+	public void botTurn() {
+		if (checkForWin("X") || checkForWin("O")) {
+	        return;
+	    }
+	    boolean moveMade = false;
+	    if (player1_turn) {
+	        int randomIndex = random.nextInt(buttons.length);
+	        buttons[randomIndex].setText("O");
+	        buttons[randomIndex].setForeground(new Color(255, 182, 0));
+	        moveMade = true;
+	    } else {
+	    // Check rows
+	    for (int i = 0; i < 3; i++) {
+	        if (buttons[i*3].getText().equals("O") && buttons[i*3+1].getText().equals("O") && buttons[i*3+2].getText().equals("")) {
+	            buttons[i*3+2].setText("O");
+	            buttons[i*3+2].setForeground(new Color(255, 182, 0));
+	            moveMade = true;
+	            break;
+	        }
+	        else if (buttons[i*3].getText().equals("O") && buttons[i*3+1].getText().equals("") && buttons[i*3+2].getText().equals("O")) {
+	            buttons[i*3+1].setText("O");
+	            buttons[i*3+1].setForeground(new Color(255, 182, 0));
+	            moveMade = true;
+	            break;
+	        }
+	        else if (buttons[i*3].getText().equals("") && buttons[i*3+1].getText().equals("O") && buttons[i*3+2].getText().equals("O")) {
+	            buttons[i*3].setText("O");
+	            buttons[i*3].setForeground(new Color(255, 182, 0));
+	            moveMade = true;
+	            break;
+	        	}
+	    	}
+	
+	        // Check columns
+	        if (!moveMade) {
+	            for (int i = 0; i < 3; i++) {
+	        	 if (buttons[i].getText().equals("O") && buttons[i+3].getText().equals("O") && buttons[i+6].getText().equals("")) {
+	                 buttons[i+6].setText("O");
+	                 buttons[i+6].setForeground(new Color(255, 182, 0));
+	                 moveMade = true;
+	                 break;
+	             }
+	             else if (buttons[i].getText().equals("O") && buttons[i+3].getText().equals("") && buttons[i+6].getText().equals("O")) {
+	                 buttons[i+3].setText("O");
+	                 buttons[i+3].setForeground(new Color(255, 182, 0));
+	                 moveMade = true;
+	                 break;
+	             }
+	             else if (buttons[i].getText().equals("") && buttons[i+3].getText().equals("O") && buttons[i+6].getText().equals("O")) {
+	                 buttons[i].setText("O");
+	                 buttons[i].setForeground(new Color(255, 182, 0));
+	                 moveMade = true;
+	                 break;
+	             } 	
+	        }	
+	        if (!moveMade) {
+	            for (int i = 0; i < 3; i++) {
+	            	if (buttons[0].getText().equals("O") && buttons[4].getText().equals("O") && buttons[8].getText().equals("")) {
+	    	        buttons[8].setText("O");
+	    	        buttons[8].setForeground(new Color(255, 182, 0));
+	    	        moveMade = true;
+	    	        break;
+	    	    }
+	    	    else if (buttons[0].getText().equals("O") && buttons[4].getText().equals("") && buttons[8].getText().equals("O")) {
+	    	        buttons[4].setText("O");
+	    	        buttons[4].setForeground(new Color(255, 182, 0));
+	    	        moveMade = true;
+	    	        break;
+	    	    }
+	    	    else if (buttons[0].getText().equals("") && buttons[4].getText().equals("O") && buttons[8].getText().equals("O")) {
+	    	        buttons[0].setText("O");
+	    	        buttons[0].setForeground(new Color(255, 182, 0));
+	    	        moveMade = true;
+	    	        break;
+	    	       }
+	            }
+	        
+	    }
+	     // If no winning move found, check for a blocking move for X
+	        if (!moveMade) {
+	            for (int i = 0; i < buttons.length; i++) {
+	                if (buttons[i].getText().equals("")) {
+	                    buttons[i].setText("X");
+	                    if (checkForWin("X")) {
+	                        buttons[i].setText("O");
+	                        buttons[i].setForeground(new Color(255, 182, 0));
+	                        moveMade = true;
+	                        break;
+	                    }
+	                    buttons[i].setText("");
+	                }
+	            }
+	        }
+	     // If no winning move found, make a random move
+	    while (!moveMade) {
+	        int randomIndex = random.nextInt(buttons.length);
+	        if (buttons[randomIndex].getText().equals("")) {
+	            buttons[randomIndex].setText("O");
+	            buttons[randomIndex].setForeground(new Color(255, 182, 0));
+	            moveMade = true;
+	        } else {
+	            boolean allFilled = true;
+	            for (JButton button : buttons) {
+	                if (button.getText().equals("")) {
+	                    allFilled = false;
+	                    break;
+	                }
+	            }
+	            if (allFilled) {
+	                break;
+	                }
+	            }
+	        }
+	
+	        // Switch turns and check for win
+	        player1_turn = true;
+	        liveText.setText("X TURN");
+	        checkForWin("X");
+			}
 	    }
 	}
 }

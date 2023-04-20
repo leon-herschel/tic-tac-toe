@@ -23,6 +23,8 @@ public class VsFriend extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	JLabel liveText = new JLabel();
 	JButton[] buttons = new JButton[9];
+	JLabel player1Score = new JLabel("0");
+	JLabel player2Score = new JLabel("0");
 	boolean player1_turn;
 
 	/**
@@ -72,17 +74,16 @@ public class VsFriend extends JFrame implements ActionListener {
 		contentPane.add(player1Panel);
 		player1Panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel player1Score = new JLabel("0");
 		player1Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player1Score.setForeground(new Color(255, 182, 0));
 		player1Score.setFont(new Font("Dialog", Font.BOLD, 30));
 		player1Panel.add(player1Score, BorderLayout.CENTER);
 		
-		JLabel player1Label_1 = new JLabel("X(YOU)");
-		player1Label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Label_1.setForeground(new Color(255, 182, 0));
-		player1Label_1.setFont(new Font("Dialog", Font.BOLD, 12));
-		player1Panel.add(player1Label_1, BorderLayout.NORTH);
+		JLabel player1Label = new JLabel("X(YOU)");
+		player1Label.setHorizontalAlignment(SwingConstants.CENTER);
+		player1Label.setForeground(new Color(255, 182, 0));
+		player1Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player1Panel.add(player1Label, BorderLayout.NORTH);
 		
 		JPanel player2Panel = new JPanel();
 		player2Panel.setBackground(new Color(255, 182, 0));
@@ -90,13 +91,12 @@ public class VsFriend extends JFrame implements ActionListener {
 		contentPane.add(player2Panel);
 		player2Panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel player2Label = new JLabel("X(FRIEND)");
+		JLabel player2Label = new JLabel("O(FRIEND)");
 		player2Label.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Label.setForeground(new Color(30, 30, 29));
 		player2Label.setFont(new Font("Dialog", Font.BOLD, 12));
 		player2Panel.add(player2Label, BorderLayout.NORTH);
 		
-		JLabel player2Score = new JLabel("0");
 		player2Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Score.setForeground(new Color(30, 30, 29));
 		player2Score.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -182,13 +182,6 @@ public class VsFriend extends JFrame implements ActionListener {
 	}
 	
 public void firstTurn() {
-		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		if(random.nextInt(2) == 0) {
 			player1_turn = true;
 			liveText.setText("X TURN");
@@ -359,6 +352,9 @@ public void firstTurn() {
 			buttons[i].setEnabled(false);
 		}
 		liveText.setText("X WINS");
+		
+		updateScore(player1Score);
+		
 	}
 	
 	public void oWins(int a, int b, int c) {
@@ -370,6 +366,15 @@ public void firstTurn() {
 			buttons[i].setEnabled(false);
 		}
 		liveText.setText("O WINS");
+		
+		updateScore(player2Score);
+		
+	}
+	
+	private void updateScore(JLabel scoreLabel) {
+	    int score = Integer.parseInt(scoreLabel.getText());
+	    score++;
+	    scoreLabel.setText(String.valueOf(score));
 	}
 	
 	public void disableButtons() {
@@ -377,5 +382,6 @@ public void firstTurn() {
 	        buttons[i].setEnabled(false);
 
 	    }
+
 	}
 }
