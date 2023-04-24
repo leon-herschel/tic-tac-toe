@@ -50,77 +50,82 @@ public class VsFriend extends JFrame implements ActionListener {
 		setTitle("Tic-Tac-Toe");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 580, 570);
+		setBounds(100, 100, 680, 680);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(20, 83, 105));
+		contentPane.setBackground(new Color(30, 30, 29));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblXo = new JLabel("<html><font color='#1e1e1d'>X</font><font color='#ffb600'>O</font></html>");
-		lblXo.setFont(new Font("Dialog", Font.BOLD, 30));
-		lblXo.setBounds(90, 21, 46, 28);
+		JLabel lblXo = new JLabel("BLITZ");
+		lblXo.setForeground(new Color(255, 182, 0));
+		lblXo.setFont(new Font("Eras Demi ITC", Font.ITALIC, 35));
+		lblXo.setBounds(90, 21, 100, 30);
 		contentPane.add(lblXo);
 		
-		button_panel.setBackground(new Color(20, 83, 105));
-		button_panel.setBounds(90, 60, 380, 380);
+		button_panel.setBackground(new Color(30, 30, 29));
+		button_panel.setBounds(90, 60, 480, 480);
 		contentPane.add(button_panel);
 		button_panel.setLayout(new GridLayout(3, 3, 10, 10));
 		
-		JPanel player1Panel = new JPanel();
-		player1Panel.setBackground(new Color(30, 30, 29));
-		player1Panel.setBounds(90, 450, 130, 50);
+		RoundedPanel player1Panel = new RoundedPanel(20);
+		player1Panel.setBackground(new Color(244, 68, 46));
+		player1Panel.setBounds(90, 551, 180, 60);
 		contentPane.add(player1Panel);
 		player1Panel.setLayout(new BorderLayout(0, 0));
 		
 		player1Score.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Score.setForeground(new Color(255, 182, 0));
-		player1Score.setFont(new Font("Dialog", Font.BOLD, 30));
+		player1Score.setForeground(new Color(30, 30, 29));
+		player1Score.setFont(new Font("Eras Demi ITC", Font.BOLD, 40));
 		player1Panel.add(player1Score, BorderLayout.CENTER);
 		
 		JLabel player1Label = new JLabel("X(YOU)");
 		player1Label.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Label.setForeground(new Color(255, 182, 0));
-		player1Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player1Label.setForeground(new Color(30, 30, 29));
+		player1Label.setFont(new Font("Eras Demi ITC", Font.BOLD, 20));
 		player1Panel.add(player1Label, BorderLayout.NORTH);
 		
-		JPanel player2Panel = new JPanel();
+		RoundedPanel player2Panel = new RoundedPanel(20);
 		player2Panel.setBackground(new Color(255, 182, 0));
-		player2Panel.setBounds(340, 450, 130, 50);
+		player2Panel.setBounds(390, 551, 180, 60);
 		contentPane.add(player2Panel);
 		player2Panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel player2Label = new JLabel("O(FRIEND)");
 		player2Label.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Label.setForeground(new Color(30, 30, 29));
-		player2Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player2Label.setFont(new Font("Eras Demi ITC", Font.BOLD, 20));
 		player2Panel.add(player2Label, BorderLayout.NORTH);
 		
 		player2Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Score.setForeground(new Color(30, 30, 29));
-		player2Score.setFont(new Font("Dialog", Font.BOLD, 30));
+		player2Score.setFont(new Font("Eras Demi ITC", Font.BOLD, 40));
 		player2Panel.add(player2Score, BorderLayout.CENTER);
 		
 		JButton restartButton = new JButton("↻");
+		restartButton.setForeground(new Color(30, 30, 29));
 		restartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(int i=0; i<9; i++) {
 		            buttons[i].setText("");
 		            buttons[i].setEnabled(true);
-		            buttons[i].setBackground(new Color(77,177,165));
+		            buttons[i].setBackground(new Color(28, 49, 68));
 				}
 				firstTurn();
 			}
 		});
 		restartButton.setBackground(new Color(255, 255, 255));
-		restartButton.setFont(new Font("Dialog", Font.BOLD, 40));
-		restartButton.setBounds(245, 450, 70, 50);
+		restartButton.setFont(new Font("Dialog", Font.BOLD, 45));
+		restartButton.setBounds(280, 551, 100, 60);
 		restartButton.setFocusable(false);
 		restartButton.setBorderPainted(false);
+		restartButton.setUI(new RoundedCorner(20));
 		contentPane.add(restartButton);
 		
 		JButton exitButton = new JButton("✖");
+		exitButton.setForeground(new Color(30, 30, 29));
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame main = new Main();
@@ -128,24 +133,26 @@ public class VsFriend extends JFrame implements ActionListener {
 				main.setVisible(true);
 			}
 		});
-		exitButton.setFont(new Font("Dialog", Font.BOLD, 13));
+		exitButton.setFont(new Font("Dialog", Font.BOLD, 20));
 		exitButton.setFocusable(false);
-		exitButton.setBackground(Color.WHITE);
-		exitButton.setBounds(425, 21, 45, 30);
+		exitButton.setBackground(new Color(255, 255, 255));
+		exitButton.setBounds(519, 17, 50, 40);
 		exitButton.setBorderPainted(false);
+		exitButton.setUI(new RoundedCorner(20));
 		contentPane.add(exitButton);
 		
 		liveText.setForeground(new Color(255, 255, 255));
-		liveText.setFont(new Font("Dialog", Font.BOLD, 30));
-		liveText.setBounds(185, 21, 190, 28);
+		liveText.setFont(new Font("Eras Demi ITC", Font.BOLD, 35));
+		liveText.setBounds(260, 23, 140, 28);
 		liveText.setHorizontalAlignment(JLabel.CENTER);
 		contentPane.add(liveText);
 		
 		for(int i=0; i<9; i++) {
 			buttons[i] = new JButton();
 			button_panel.add(buttons[i]);
-			buttons[i].setFont(new Font("Dialog", Font.BOLD, 100));
-			buttons[i].setBackground(new Color(77,177,165));
+			buttons[i].setUI(new RoundedCorner(20));
+			buttons[i].setFont(new Font("Dialog", Font.BOLD, 150));
+			buttons[i].setBackground(new Color(28, 49, 68));
 			buttons[i].setBorder(null);
 			buttons[i].setFocusable(false);
 			buttons[i].addActionListener(this);
@@ -161,7 +168,7 @@ public class VsFriend extends JFrame implements ActionListener {
 			if(e.getSource()==buttons[i]) {
 				if(player1_turn) {
 					if(buttons[i].getText()=="") {
-						buttons[i].setForeground(new Color(30, 30, 29));
+						buttons[i].setForeground(new Color(244, 68, 46));
 						buttons[i].setText("X");
 						player1_turn=false;
 						liveText.setText("O TURN");
@@ -344,9 +351,12 @@ public void firstTurn() {
 	}
 	
 	public void xWins(int a, int b, int c) {
-		buttons[a].setBackground(new Color(30, 30, 29));
-		buttons[b].setBackground(new Color(30, 30, 29));
-		buttons[c].setBackground(new Color(30, 30, 29));
+		buttons[a].setBackground(new Color(244, 68, 46));
+		buttons[b].setBackground(new Color(244, 68, 46));
+		buttons[c].setBackground(new Color(244, 68, 46));
+		buttons[a].setForeground(new Color(30, 30, 29));
+		buttons[b].setForeground(new Color(30, 30, 29));
+		buttons[c].setForeground(new Color(30, 30, 29));
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
@@ -361,6 +371,9 @@ public void firstTurn() {
 		buttons[a].setBackground(new Color(255, 182, 0));
 		buttons[b].setBackground(new Color(255, 182, 0));
 		buttons[c].setBackground(new Color(255, 182, 0));
+		buttons[a].setForeground(new Color(30, 30, 29));
+		buttons[b].setForeground(new Color(30, 30, 29));
+		buttons[c].setForeground(new Color(30, 30, 29));
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
@@ -380,6 +393,8 @@ public void firstTurn() {
 	public void disableButtons() {
 	    for (int i = 0; i < 9; i++) {
 	        buttons[i].setEnabled(false);
+	        buttons[i].setBackground(new Color(169, 169, 169));
+	        buttons[i].setForeground(new Color(30, 30, 29));
 
 	    }
 

@@ -13,8 +13,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 
@@ -52,74 +50,78 @@ public class VsRobot extends JFrame implements ActionListener {
 		setTitle("Tic-Tac-Toe");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 580, 570);
+		setBounds(100, 100, 680, 680);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(20, 83, 105));
+		contentPane.setBackground(new Color(30, 30, 29));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblXo = new JLabel("<html><font color='#1e1e1d'>X</font><font color='#ffb600'>O</font></html>");
-		lblXo.setFont(new Font("Dialog", Font.BOLD, 30));
-		lblXo.setBounds(90, 21, 46, 28);
+		JLabel lblXo = new JLabel("BLITZ");
+		lblXo.setForeground(new Color(255, 182, 0));
+		lblXo.setFont(new Font("Eras Demi ITC", Font.ITALIC, 35));
+		lblXo.setBounds(90, 21, 100, 30);
 		contentPane.add(lblXo);
 		
-		button_panel.setBackground(new Color(20, 83, 105));
-		button_panel.setBounds(90, 60, 380, 380);
+		button_panel.setBackground(new Color(30, 30, 29));
+		button_panel.setBounds(90, 60, 480, 480);
 		contentPane.add(button_panel);
 		button_panel.setLayout(new GridLayout(3, 3, 10, 10));
 		
-		JPanel player1Panel = new JPanel();
-		player1Panel.setBackground(new Color(30, 30, 29));
-		player1Panel.setBounds(90, 450, 130, 50);
+		RoundedPanel player1Panel = new RoundedPanel(20);
+		player1Panel.setBackground(new Color(244, 68, 46));
+		player1Panel.setBounds(90, 551, 180, 60);
 		contentPane.add(player1Panel);
 		player1Panel.setLayout(new BorderLayout(0, 0));
 		
 		player1Score.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Score.setForeground(new Color(255, 182, 0));
-		player1Score.setFont(new Font("Dialog", Font.BOLD, 30));
+		player1Score.setForeground(new Color(30, 30, 29));
+		player1Score.setFont(new Font("Eras Demi ITC", Font.BOLD, 40));
 		player1Panel.add(player1Score, BorderLayout.CENTER);
 		
 		JLabel player1Label = new JLabel("X(YOU)");
 		player1Label.setHorizontalAlignment(SwingConstants.CENTER);
-		player1Label.setForeground(new Color(255, 182, 0));
-		player1Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player1Label.setForeground(new Color(30, 30, 29));
+		player1Label.setFont(new Font("Eras Demi ITC", Font.BOLD, 20));
 		player1Panel.add(player1Label, BorderLayout.NORTH);
 		
-		JPanel player2Panel = new JPanel();
+		RoundedPanel player2Panel = new RoundedPanel(20);
 		player2Panel.setBackground(new Color(255, 182, 0));
-		player2Panel.setBounds(340, 450, 130, 50);
+		player2Panel.setBounds(390, 551, 180, 60);
 		contentPane.add(player2Panel);
 		player2Panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel player2Label = new JLabel("O(ROBOT)");
 		player2Label.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Label.setForeground(new Color(30, 30, 29));
-		player2Label.setFont(new Font("Dialog", Font.BOLD, 12));
+		player2Label.setFont(new Font("Eras Demi ITC", Font.BOLD, 20));
 		player2Panel.add(player2Label, BorderLayout.NORTH);
 		
 		player2Score.setHorizontalAlignment(SwingConstants.CENTER);
 		player2Score.setForeground(new Color(30, 30, 29));
-		player2Score.setFont(new Font("Dialog", Font.BOLD, 30));
+		player2Score.setFont(new Font("Eras Demi ITC", Font.BOLD, 40));
 		player2Panel.add(player2Score, BorderLayout.CENTER);
 		
 		JButton restartButton = new JButton("↻");
+		restartButton.setForeground(new Color(30, 30, 29));
 		restartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(int i=0; i<9; i++) {
 		            buttons[i].setText("");
 		            buttons[i].setEnabled(true);
-		            buttons[i].setBackground(new Color(77,177,165));
+		            buttons[i].setBackground(new Color(28, 49, 68));
 				}
 				firstTurn();
 			}
 		});
 		restartButton.setBackground(new Color(255, 255, 255));
-		restartButton.setFont(new Font("Dialog", Font.BOLD, 40));
-		restartButton.setBounds(245, 450, 70, 50);
+		restartButton.setFont(new Font("Dialog", Font.BOLD, 45));
+		restartButton.setBounds(280, 551, 100, 60);
 		restartButton.setFocusable(false);
 		restartButton.setBorderPainted(false);
+		restartButton.setUI(new RoundedCorner(20));
 		contentPane.add(restartButton);
 		
 		JButton exitButton = new JButton("✖");
@@ -130,24 +132,26 @@ public class VsRobot extends JFrame implements ActionListener {
 				main.setVisible(true);
 			}
 		});
-		exitButton.setFont(new Font("Dialog", Font.BOLD, 13));
+		exitButton.setFont(new Font("Dialog", Font.BOLD, 20));
 		exitButton.setFocusable(false);
 		exitButton.setBackground(Color.WHITE);
-		exitButton.setBounds(425, 21, 45, 30);
+		exitButton.setBounds(519, 17, 50, 40);
 		exitButton.setBorderPainted(false);
+		exitButton.setUI(new RoundedCorner(20));
 		contentPane.add(exitButton);
 		
 		liveText.setForeground(new Color(255, 255, 255));
-		liveText.setFont(new Font("Dialog", Font.BOLD, 30));
-		liveText.setBounds(185, 21, 190, 28);
+		liveText.setFont(new Font("Eras Demi ITC", Font.BOLD, 35));
+		liveText.setBounds(255, 23, 155, 28);
 		liveText.setHorizontalAlignment(JLabel.CENTER);
 		contentPane.add(liveText);
 		
 		for(int i=0; i<9; i++) {
 			buttons[i] = new JButton();
 			button_panel.add(buttons[i]);
-			buttons[i].setFont(new Font("Dialog", Font.BOLD, 100));
-			buttons[i].setBackground(new Color(77,177,165));
+			buttons[i].setUI(new RoundedCorner(20));
+			buttons[i].setFont(new Font("Dialog", Font.BOLD, 150));
+			buttons[i].setBackground(new Color(28, 49, 68));
 			buttons[i].setBorder(null);
 			buttons[i].setFocusable(false);
 			buttons[i].addActionListener(this);
@@ -164,10 +168,9 @@ public class VsRobot extends JFrame implements ActionListener {
 			if(e.getSource()==buttons[i]) {
 				if(player1_turn) {
 					if(buttons[i].getText()=="") {
-						buttons[i].setForeground(new Color(30, 30, 29));
+						buttons[i].setForeground(new Color(244, 68, 46));
 						buttons[i].setText("X");
 						player1_turn=false;
-						liveText.setText("O TURN");
 						check();
 					}
 				}
@@ -176,7 +179,6 @@ public class VsRobot extends JFrame implements ActionListener {
 						buttons[i].setForeground(new Color(255, 182, 0));
 						buttons[i].setText("O");
 						player1_turn=true;
-						liveText.setText("X TURN");
 						check();
 					}
 				}
@@ -187,11 +189,23 @@ public class VsRobot extends JFrame implements ActionListener {
 	public void firstTurn() {
 			
 			if(random.nextInt(2) == 0) {
-				player1_turn = true;
-				liveText.setText("X TURN");
+				 player1_turn = true;
+			        if (Integer.parseInt(player1Score.getText()) <= 5) {
+			            liveText.setText("EASY");
+			        } else if (Integer.parseInt(player1Score.getText()) <= 10) {
+			            liveText.setText("MEDIUM");
+			        } else {
+			            liveText.setText("HARD");
+			        }
 			}else {
 				player1_turn = false;
-				liveText.setText("O TURN");
+				if (Integer.parseInt(player1Score.getText()) <= 5) {
+		            liveText.setText("EASY");
+		        } else if (Integer.parseInt(player1Score.getText()) <= 10) {
+		            liveText.setText("MEDIUM");
+		        } else {
+		            liveText.setText("HARD");
+		        }
 				botTurn();
 			}
 			
@@ -351,9 +365,12 @@ public class VsRobot extends JFrame implements ActionListener {
 	}
 	
 	public void xWins(int a, int b, int c) {
-		buttons[a].setBackground(new Color(30, 30, 29));
-		buttons[b].setBackground(new Color(30, 30, 29));
-		buttons[c].setBackground(new Color(30, 30, 29));
+		buttons[a].setBackground(new Color(244, 68, 46));
+		buttons[b].setBackground(new Color(244, 68, 46));
+		buttons[c].setBackground(new Color(244, 68, 46));
+		buttons[a].setForeground(new Color(30, 30, 29));
+		buttons[b].setForeground(new Color(30, 30, 29));
+		buttons[c].setForeground(new Color(30, 30, 29));
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
@@ -366,6 +383,9 @@ public class VsRobot extends JFrame implements ActionListener {
 		buttons[a].setBackground(new Color(255, 182, 0));
 		buttons[b].setBackground(new Color(255, 182, 0));
 		buttons[c].setBackground(new Color(255, 182, 0));
+		buttons[a].setForeground(new Color(30, 30, 29));
+		buttons[b].setForeground(new Color(30, 30, 29));
+		buttons[c].setForeground(new Color(30, 30, 29));
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
@@ -384,6 +404,8 @@ public class VsRobot extends JFrame implements ActionListener {
 	public void disableButtons() {
 	    for (int i = 0; i < 9; i++) {
 	        buttons[i].setEnabled(false);
+	        buttons[i].setBackground(new Color(169, 169, 169));
+	        buttons[i].setForeground(new Color(30, 30, 29));
 	
 	    	}	
 		}
@@ -421,6 +443,95 @@ public class VsRobot extends JFrame implements ActionListener {
 	    return false;
 	}
 	
+	private boolean hasDoubleThreatInRow(int row) {
+		int emptyCount = 0;
+	    int emptyIndex = -1;
+	    boolean hasX = false;
+
+	    for (int i = 0; i < 3; i++) {
+	        String text = buttons[row * 3 + i].getText();
+	        if (text.equals("")) {
+	            emptyCount++;
+	            emptyIndex = row * 3 + i;
+	        } else if (text.equals("X")) {
+	            hasX = true;
+	        } else {
+	            // The cell is already occupied by O
+	            return false;
+	        }
+	    }
+
+	    if (hasX && emptyCount == 1) {
+	        buttons[emptyIndex].setText("O");
+	        boolean doubleThreat = checkForWin("O");
+	        buttons[emptyIndex].setText("");
+	        return doubleThreat;
+	    }
+
+	    return false;
+	}
+
+	private boolean hasDoubleThreatInColumn(int col) {
+	    int emptyCount = 0;
+	    int emptyIndex = -1;
+	    for (int i = 0; i < 3; i++) {
+	        if (buttons[col + i * 3].getText().equals("")) {
+	            emptyCount++;
+	            emptyIndex = col + i * 3;
+	        } else if (!buttons[col + i * 3].getText().equals("X")) {
+	            return false;
+	        }
+	    }
+	    if (emptyCount == 1) {
+	        return false;
+	    }
+	    buttons[emptyIndex].setText("O");
+	    boolean doubleThreat = checkForWin("O");
+	    buttons[emptyIndex].setText("");
+	    return doubleThreat;
+	}
+	
+	private boolean hasDoubleThreatInDiagonal() {
+		  // Check left diagonal
+	    if (buttons[0].getText().equals("X") && buttons[4].getText().equals("") && buttons[8].getText().equals("X")) {
+	        return true;
+	    }
+	    if (buttons[0].getText().equals("X") && buttons[4].getText().equals("X") && buttons[8].getText().equals("")) {
+	        return true;
+	    }
+	    if (buttons[0].getText().equals("") && buttons[4].getText().equals("X") && buttons[8].getText().equals("X")) {
+	        return true;
+	    }
+
+	    // Check right diagonal
+	    if (buttons[2].getText().equals("X") && buttons[4].getText().equals("") && buttons[6].getText().equals("X")) {
+	        return true;
+	    }
+	    if (buttons[2].getText().equals("X") && buttons[4].getText().equals("X") && buttons[6].getText().equals("")) {
+	        return true;
+	    }
+	    if (buttons[2].getText().equals("") && buttons[4].getText().equals("X") && buttons[6].getText().equals("X")) {
+	        return true;
+	    }
+
+	    // Check other diagonals
+	    String[] diagonal1 = {buttons[0].getText(), buttons[4].getText(), buttons[8].getText()};
+	    String[] diagonal2 = {buttons[2].getText(), buttons[4].getText(), buttons[6].getText()};
+	    return checkForDoubleThreatInArray(diagonal1) || checkForDoubleThreatInArray(diagonal2);
+	}
+
+	private boolean checkForDoubleThreatInArray(String[] array) {
+	    int countO = 0;
+	    int countEmpty = 0;
+	    for (String s : array) {
+	        if (s.equals("O")) {
+	            countO++;
+	        } else if (s.equals("")) {
+	            countEmpty++;
+	        }
+	    }
+	    return countO == 2 && countEmpty == 1;
+	}
 	
 	public void botTurn() {
 		if (checkForWin("X") || checkForWin("O")) {
@@ -500,6 +611,7 @@ public class VsRobot extends JFrame implements ActionListener {
 	            }
 	        
 	    }
+	    if (liveText.getText().equals("MEDIUM") || liveText.getText().equals("HARD")) {
 	     // If no winning move found, check for a blocking move for X
 	        if (!moveMade) {
 	            for (int i = 0; i < buttons.length; i++) {
@@ -515,6 +627,43 @@ public class VsRobot extends JFrame implements ActionListener {
 	                }
 	            }
 	        }
+	    } 
+	    
+	    // Check for double threat
+	    if (liveText.getText().equals("HARD")) {
+		    if (!moveMade) {
+		        for (int i = 0; i < buttons.length; i++) {
+		            if (buttons[i].getText().equals("")) {
+		                buttons[i].setText("O");
+		
+		                // Check for double threat in row
+		                int row = i / 3;
+		                if (hasDoubleThreatInRow(row)) {
+		                    buttons[i].setForeground(new Color(255, 182, 0));
+		                    moveMade = true;
+		                    break;
+		                }
+		
+		                // Check for double threat in column
+		                int col = i % 3;
+		                if (hasDoubleThreatInColumn(col)) {
+		                    buttons[i].setForeground(new Color(255, 182, 0));
+		                    moveMade = true;
+		                    break;
+		                }
+		
+		                // Check for double threat in diagonal
+		                if (hasDoubleThreatInDiagonal()) {
+		                    buttons[i].setForeground(new Color(255, 182, 0));
+		                    moveMade = true;
+		                    break;
+		                }
+		
+		                buttons[i].setText("");
+		            }
+		        }
+		    }
+	    }
 	     // If no winning move found, make a random move
 	    while (!moveMade) {
 	        int randomIndex = random.nextInt(buttons.length);
@@ -538,7 +687,6 @@ public class VsRobot extends JFrame implements ActionListener {
 	
 	        // Switch turns and check for win
 	        player1_turn = true;
-	        liveText.setText("X TURN");
 	        checkForWin("X");
 			}
 	    }
