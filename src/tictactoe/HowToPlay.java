@@ -1,79 +1,139 @@
 package tictactoe;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
-import javax.swing.JLabel;
-import java.awt.CardLayout;
 
-public class HowToPlay extends JFrame {
+public class HowToPlay extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
+    private JPanel contentPane;
+    private CardLayout cardLayout;
+    private JPanel cards;
+    private JButton nextButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HowToPlay frame = new HowToPlay();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    HowToPlay frame = new HowToPlay();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the frame.
-	 */
-	public HowToPlay() {
-		setTitle("Tic-Tac-Toe");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 595, 570);
-		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(28, 49, 68));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    /**
+     * Create the frame.
+     */
+    public HowToPlay() {
+        setTitle("Tic-Tac-Toe");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setBounds(100, 100, 600, 640);
+        setLocationRelativeTo(null);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(28, 49, 68));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new CardLayout(0, 0));
-		SimpleAttributeSet center = new SimpleAttributeSet();
-		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        setContentPane(contentPane);
+        contentPane.setLayout(new BorderLayout(0, 0));
+
+        cards = new JPanel(new CardLayout());
+        contentPane.add(cards, BorderLayout.CENTER);
+
+        JPanel panel1 = new JPanel();
+        panel1.setBackground(new Color(28, 49, 68));
+        JLabel label1 = new JLabel(new ImageIcon("src/tictactoe/img/step1.png"));
+        panel1.add(label1);
+
+        JPanel panel2 = new JPanel();
+        panel2.setBackground(new Color(28, 49, 68));
+        JLabel label2 = new JLabel(new ImageIcon("src/tictactoe/img/step2.png"));
+        panel2.add(label2);
+        
+        JPanel panel3 = new JPanel();
+        panel3.setBackground(new Color(28, 49, 68));
+        JLabel label3 = new JLabel(new ImageIcon("src/tictactoe/img/step3.png"));
+        panel3.add(label3);
+        
+        JPanel panel4 = new JPanel();
+        panel4.setBackground(new Color(28, 49, 68));
+        JLabel label4 = new JLabel(new ImageIcon("src/tictactoe/img/step4.png"));
+        panel4.add(label4);
+        
+        JPanel panel5 = new JPanel();
+        panel5.setBackground(new Color(28, 49, 68));
+        JLabel label5 = new JLabel(new ImageIcon("src/tictactoe/img/step5.png"));
+        panel5.add(label5);
+        
+        JPanel panel6 = new JPanel();
+        panel6.setBackground(new Color(28, 49, 68));
+        JLabel label6 = new JLabel(new ImageIcon("src/tictactoe/img/step6.png"));
+        panel6.add(label6);
+        
+        JPanel panel7 = new JPanel();
+        panel7.setBackground(new Color(28, 49, 68));
+        JLabel label7 = new JLabel(new ImageIcon("src/tictactoe/img/step7.png"));
+        panel7.add(label7);
+        
+        JPanel panel8 = new JPanel();
+        panel8.setBackground(new Color(28, 49, 68));
+        JLabel label8 = new JLabel(new ImageIcon("src/tictactoe/img/step8.png"));
+        panel8.add(label8);
+        
+        JPanel panel9 = new JPanel();
+        panel9.setBackground(new Color(28, 49, 68));
+        JLabel label9 = new JLabel(new ImageIcon("src/tictactoe/img/step9.png"));
+        panel9.add(label9);
+
+        cards.add(panel1, "panel1");
+        cards.add(panel2, "panel2");
+        cards.add(panel3, "panel3");
+        cards.add(panel4, "panel4");
+        cards.add(panel5, "panel5");
+        cards.add(panel6, "panel6");
+        cards.add(panel7, "panel7");
+        cards.add(panel8, "panel8");
+        cards.add(panel9, "panel9");
 		
-		JPanel panel1 = new JPanel();
-	    panel1.setBackground(new Color(28, 49, 68));
-	    JLabel label1 = new JLabel(new ImageIcon("src/tictacroe/step1.png"));
-	    panel1.add(label1);
+        nextButton = new JButton("Next");
+        nextButton.setForeground(new Color(28, 49, 68));
+    	nextButton.setBackground(new Color(255, 182, 0));
+    	nextButton.setFont(new Font("Eras Demi ITC", Font.BOLD, 30));
+    	nextButton.setBounds(60, 300, 140, 50);
+    	nextButton.setFocusable(false);
+    	nextButton.setBorderPainted(false);
+    	nextButton.setUI(new RoundedCorner(20));
+        nextButton.addActionListener(this);
 
-	    // create a panel for the second image
-	    JPanel panel2 = new JPanel();
-	    panel2.setBackground(new Color(28, 49, 68));
-	    JLabel label2 = new JLabel(new ImageIcon("src/tictactoe/step2.png"));
-	    panel2.add(label2);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(28, 49, 68));
+        buttonPanel.add(nextButton);
+        contentPane.add(buttonPanel, BorderLayout.SOUTH);
+        
+        setVisible(true);
 
-	    // add the panels to the content pane using CardLayout
-	    contentPane.add(panel1, "panel1");
-	    contentPane.add(panel2, "panel2");
-	    CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-	    cardLayout.show(contentPane, "panel1");
-	    cardLayout.show(contentPane, "panel2");
-	}
-	
+        cardLayout = (CardLayout) cards.getLayout();
+    }
+
+    public void actionPerformed(ActionEvent e) {
+    	
+            cardLayout.next(cards);
+    }
 }
