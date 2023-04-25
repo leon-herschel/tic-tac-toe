@@ -1,32 +1,28 @@
 package tictactoe;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class Main extends JFrame {
 
 	private JPanel contentPane;
+	private Clip clip;
+	boolean soundEnabled = true;
 
 	/**
 	 * Launch the application.
@@ -53,6 +49,17 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 680);
 		setLocationRelativeTo(null);
+		
+		try {
+			URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/bgmusic.wav");
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(28, 49, 68));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,8 +75,19 @@ public class Main extends JFrame {
 		friendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame singlePlayer = new VsFriend();
+				clip.stop();
 				setVisible(false);
 				singlePlayer.setVisible(true);
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
 			}
 		});
 		friendButton.setForeground(new Color(28, 49, 68));
@@ -85,9 +103,20 @@ public class Main extends JFrame {
 		robotButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame multiPlayer = new VsRobot();
+				clip.stop();
 				setVisible(false);
 				multiPlayer.setVisible(true);
-			}
+		        
+		        try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
 		});
 		robotButton.setUI(new RoundedCorner(20));
 		robotButton.setForeground(new Color(28, 49, 68));
@@ -103,6 +132,16 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFrame howToPlay = new HowToPlay();
 				howToPlay.setVisible(true);
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
 			}
 		});
 		helpButton.setFont(new Font("Gadugi", Font.BOLD, 25));
@@ -113,6 +152,39 @@ public class Main extends JFrame {
 		helpButton.setBorderPainted(false);
 		helpButton.setFocusPainted(false);
 		contentPane.add(helpButton);
+		
+		JButton muteButton = new JButton("♫");
+		muteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (soundEnabled) {
+                    // Music is playing, stop it
+                    clip.stop();
+                    soundEnabled = false;
+                } else {
+                    // Music is stopped, start it
+                    clip.start();
+                    soundEnabled = true;
+                }
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+            }
+		});
+		muteButton.setFont(new Font("Arial", Font.BOLD, 20));
+		muteButton.setBackground(Color.WHITE);
+		muteButton.setBounds(10, 580, 50, 50);
+		muteButton.setUI(roundBtn);
+		muteButton.setContentAreaFilled(false);
+		muteButton.setBorderPainted(false);
+		muteButton.setFocusPainted(false);
+		contentPane.add(muteButton);
 		
 		RoundedPanel titlePanel = new RoundedPanel(20);
 		titlePanel.setForeground(new Color(29, 211, 176));
@@ -126,7 +198,7 @@ public class Main extends JFrame {
 		titlePanel.add(titleLabel);
 		titleLabel.setBackground(Color.BLACK);
 		titleLabel.setForeground(new Color(28, 49, 68));
-		titleLabel.setFont(new Font("Eras Demi ITC", Font.BOLD, 78));
+		titleLabel.setFont(new Font("Eras Demi ITC", Font.BOLD, 77));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblXo_1 = new JLabel("BLITZ");
@@ -143,4 +215,5 @@ public class Main extends JFrame {
 		lblXo.setForeground(new Color(255, 182, 0));
 		lblXo.setFont(new Font("Eras Demi ITC", Font.ITALIC, 99));
 	}
+	
 }

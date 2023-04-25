@@ -8,10 +8,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.Random;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
@@ -25,6 +30,7 @@ public class VsFriend extends JFrame implements ActionListener {
 	JButton[] buttons = new JButton[9];
 	JLabel player1Score = new JLabel("0");
 	JLabel player2Score = new JLabel("0");
+	private Clip clip;
 	boolean player1_turn;
 
 	/**
@@ -52,6 +58,17 @@ public class VsFriend extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 680);
 		setLocationRelativeTo(null);
+		
+		try {
+			URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/bgmusic2.wav");
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(30, 30, 29));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,6 +131,16 @@ public class VsFriend extends JFrame implements ActionListener {
 		            buttons[i].setBackground(new Color(28, 49, 68));
 				}
 				firstTurn();
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
 			}
 		});
 		restartButton.setBackground(new Color(255, 255, 255));
@@ -129,8 +156,19 @@ public class VsFriend extends JFrame implements ActionListener {
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame main = new Main();
+				clip.stop();
 				setVisible(false);
 				main.setVisible(true);
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
 			}
 		});
 		exitButton.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -142,7 +180,7 @@ public class VsFriend extends JFrame implements ActionListener {
 		contentPane.add(exitButton);
 		
 		liveText.setForeground(new Color(255, 255, 255));
-		liveText.setFont(new Font("Eras Demi ITC", Font.BOLD, 35));
+		liveText.setFont(new Font("Eras Demi ITC", Font.BOLD, 33));
 		liveText.setBounds(260, 23, 140, 28);
 		liveText.setHorizontalAlignment(JLabel.CENTER);
 		contentPane.add(liveText);
@@ -173,6 +211,16 @@ public class VsFriend extends JFrame implements ActionListener {
 						player1_turn=false;
 						liveText.setText("O TURN");
 						check();
+						
+						try {
+				            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+				            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+				            Clip buttonClip = AudioSystem.getClip();
+				            buttonClip.open(audioInputStream);
+				            buttonClip.start();
+				        } catch (Exception ex) {
+				            ex.printStackTrace();
+				        }
 					}
 				}
 				else {
@@ -182,6 +230,16 @@ public class VsFriend extends JFrame implements ActionListener {
 						player1_turn=true;
 						liveText.setText("X TURN");
 						check();
+						
+						try {
+				            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+				            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+				            Clip buttonClip = AudioSystem.getClip();
+				            buttonClip.open(audioInputStream);
+				            buttonClip.start();
+				        } catch (Exception ex) {
+				            ex.printStackTrace();
+				        }
 					}
 				}
 			}
