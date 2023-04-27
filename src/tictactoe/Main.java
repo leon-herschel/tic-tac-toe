@@ -214,6 +214,31 @@ public class Main extends JFrame {
 		lblXo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblXo.setForeground(new Color(255, 182, 0));
 		lblXo.setFont(new Font("Eras Demi ITC", Font.ITALIC, 99));
+		
+		JButton btnCredits = new JButton("CREDITS");
+		btnCredits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame credits = new Credits();
+				credits.setVisible(true);
+				
+				try {
+		            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/buttonsound.wav");
+		            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+		            Clip buttonClip = AudioSystem.getClip();
+		            buttonClip.open(audioInputStream);
+		            buttonClip.start();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+			}
+		});
+		btnCredits.setForeground(new Color(28, 49, 68));
+		btnCredits.setFont(new Font("Eras Demi ITC", Font.BOLD, 30));
+		btnCredits.setFocusable(false);
+		btnCredits.setBorderPainted(false);
+		btnCredits.setBackground(new Color(255, 182, 0));
+		btnCredits.setBounds(230, 585, 200, 40);
+		btnCredits.setUI(new RoundedCorner(20));
+		contentPane.add(btnCredits);
 	}
-	
 }
