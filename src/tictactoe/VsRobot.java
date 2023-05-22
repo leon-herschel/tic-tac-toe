@@ -408,6 +408,16 @@ public class VsRobot extends JFrame implements ActionListener {
 	            liveText.setText("DRAW");
 	            gameOver = true;
 	            disableButtons();
+	            
+	            try {
+	                URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/draw.wav");
+	                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+	                Clip buttonClip = AudioSystem.getClip();
+	                buttonClip.open(audioInputStream);
+	                buttonClip.start();
+	            } catch (Exception ex) {
+	                ex.printStackTrace();
+	            }
 	        }
 	    }
 	}
@@ -419,6 +429,16 @@ public class VsRobot extends JFrame implements ActionListener {
 		buttons[a].setForeground(new Color(30, 30, 29));
 		buttons[b].setForeground(new Color(30, 30, 29));
 		buttons[c].setForeground(new Color(30, 30, 29));
+		
+		try {
+            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/winner.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+            Clip buttonClip = AudioSystem.getClip();
+            buttonClip.open(audioInputStream);
+            buttonClip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
@@ -434,6 +454,16 @@ public class VsRobot extends JFrame implements ActionListener {
 		buttons[a].setForeground(new Color(30, 30, 29));
 		buttons[b].setForeground(new Color(30, 30, 29));
 		buttons[c].setForeground(new Color(30, 30, 29));
+		
+		try {
+            URL soundUrl = getClass().getClassLoader().getResource("tictactoe/sounds/winner.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl);
+            Clip buttonClip = AudioSystem.getClip();
+            buttonClip.open(audioInputStream);
+            buttonClip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		
 		for(int i=0;i<9;i++) {
 			buttons[i].setEnabled(false);
